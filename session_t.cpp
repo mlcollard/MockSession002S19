@@ -22,10 +22,11 @@ public:
 
 class Session {
 public:
-    Session() : start_time(std::time(nullptr)), end_time(0) {}
-    void stop() { end_time = std::time(nullptr); }
+    Session(const Clock& clock = TimeClock()) : clock(clock), start_time(clock.start()), end_time(0) {}
+    void stop() { end_time = clock.now(); }
     std::time_t seconds() { return end_time - start_time; }
 private:
+    const Clock& clock;
     std::time_t start_time;
     std::time_t end_time;
 };
