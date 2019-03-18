@@ -8,6 +8,12 @@
 #include <cassert>
 #include <unistd.h>
 
+class Clock {
+public:
+    virtual std::time_t start() const = 0;
+    virtual std::time_t now() const = 0;
+};
+
 class Session {
 public:
     Session() : start_time(std::time(nullptr)), end_time(0) {}
