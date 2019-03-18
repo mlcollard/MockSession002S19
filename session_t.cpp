@@ -14,6 +14,12 @@ public:
     virtual std::time_t now() const = 0;
 };
 
+class TimeClock : public Clock {
+public:
+    virtual std::time_t start() const { return now(); }
+    virtual std::time_t now() const { return std::time(nullptr); }
+};
+
 class Session {
 public:
     Session() : start_time(std::time(nullptr)), end_time(0) {}
