@@ -26,6 +26,12 @@ public:
     virtual std::time_t now() const { return 2; }
 };
 
+class HourClock : public Clock {
+public:
+    virtual std::time_t start() const { return 0; }
+    virtual std::time_t now() const { return 60 * 60; }
+};
+
 class Session {
 public:
     Session(const Clock& clock = TimeClock()) : clock(clock), start_time(clock.start()), end_time(0) {}
@@ -53,6 +59,14 @@ int main() {
         s.stop();
         
         assert(s.seconds() == 2);
+    }
+
+    {
+        HourClock c;
+        Session s(c);
+        s.stop();
+        
+        assert(s.seconds() == 60 * 60);
     }
 
     return 0;
