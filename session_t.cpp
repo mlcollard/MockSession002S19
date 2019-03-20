@@ -20,6 +20,12 @@ public:
     virtual std::time_t now() const { return std::time(nullptr); }
 };
 
+class TwoSecondClock : public Clock {
+public:
+    virtual std::time_t start() const { return 0; }
+    virtual std::time_t now() const { return 2; }
+};
+
 class Session {
 public:
     Session(const Clock& clock = TimeClock()) : clock(clock), start_time(clock.start()), end_time(0) {}
@@ -32,7 +38,7 @@ private:
 };
 
 int main() {
-    
+
     {
         Session s;
         sleep(2);
@@ -40,6 +46,14 @@ int main() {
         
         assert(s.seconds() == 2);
     }
-    
+
+    {
+        TwoSecondClock c;
+        Session s(c);
+        s.stop();
+        
+        assert(s.seconds() == 2);
+    }
+
     return 0;
 }
